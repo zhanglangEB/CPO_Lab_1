@@ -91,7 +91,7 @@
    &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(to_list(lst), e)<br/> 
    &emsp;&emsp;&emsp;&emsp;3. to_list<br/> 
    &emsp;&emsp;&emsp;&emsp;&emsp;to_list(arr)<br/> 
-   &emsp;&emsp;&emsp;&emsp;&emsp;lst = [1, 2]
+   &emsp;&emsp;&emsp;&emsp;&emsp;lst = [1, 2]<br/>
    &emsp;&emsp;&emsp;&emsp;&emsp;arr = DynamicArray(lst)<br/>
    &emsp;&emsp;&emsp;&emsp;&emsp;lst_arr = to_list(arr)<br/> 
    &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(lst, lst_arr)<br/>
