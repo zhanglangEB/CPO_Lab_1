@@ -83,7 +83,7 @@
    &emsp;&emsp;&emsp;&emsp;&emsp;arr represents a dynamic array, it can be constructed by a list using DynamicArray(lst).The following arr are the same.<br/> 
    &emsp;&emsp;&emsp;&emsp;&emsp;lst represents a list in python(eg. lst = [1, 2, 3]).The following lst are the same.<br/> 
    &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(size(DynamicArray([1])), 1)<br/>
-   &emsp;&emsp;&emsp;&emsp;2. from_list(lst)<br/> 
+   &emsp;&emsp;&emsp;&emsp;2. from_list<br/> 
    &emsp;&emsp;&emsp;&emsp;&emsp;from_list(lst)<br/> 
    &emsp;&emsp;&emsp;&emsp;&emsp;test_data = [[],['a'],['a', 'b']]<br/>
    &emsp;&emsp;&emsp;&emsp;&emsp;for e in test_data:<br/>
