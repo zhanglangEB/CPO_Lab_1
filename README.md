@@ -74,6 +74,8 @@
    &emsp;&emsp;&emsp;&emsp;&emsp;for val in lst:<br/>
    &emsp;&emsp;&emsp;&emsp;&emsp;tmp.append(val) <br/> 
    &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(x, tmp)<br/>
+   &emsp;&emsp;&emsp;&emsp;13.mempty<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(DynamicArray_mut().mempty(),None)<br/>
    &emsp;&emsp;**immutable version:**<br/> 
    &emsp;&emsp;&emsp;&emsp;1. size(arr)<br/> 
    &emsp;&emsp;&emsp;&emsp;arr represents a dynamic array, it can be constructed by a list using DynamicArray(lst).The following arr are the same.<br/> 
