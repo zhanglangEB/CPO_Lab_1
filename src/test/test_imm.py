@@ -56,6 +56,9 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(arr_reduce((lambda x, y: x + y), arr, 0), 0)
         arr = from_list([1, 2])
         self.assertEqual(arr_reduce((lambda x, y: x + y), arr, 0), 3)
+    
+    def test_mempty(self):
+        self.assertEqual(mempty(), None)
 
     def test_mconcat(self):
         a = DynamicArray([1, 2])
