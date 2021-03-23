@@ -9,6 +9,11 @@ class TestMutableList(unittest.TestCase):
         self.assertEqual(DynamicArray_mut().size(), 0)
         self.assertEqual(DynamicArray_mut(['a','b','c']).size(), 3)
 
+    def test_add(self):
+        lst=DynamicArray_mut()
+        lst.add(1)
+        self.assertEqual(lst.to_list(),[1])
+
     def test_resize(self):
         lst = DynamicArray_mut()
         lst.resize(2)
@@ -24,34 +29,32 @@ class TestMutableList(unittest.TestCase):
             ['a'],
             ['a', 'b']
         ]
-        for e in test_data:
+        for val in test_data:
             lst = DynamicArray_mut()
-            lst.from_list(e)
-            self.assertEqual(lst.to_list(), e)
+            lst.from_list(val)
+            self.assertEqual(lst.to_list(), val)
 
     def test_map(self):
         lst = DynamicArray_mut()
         lst.map(str)
         self.assertEqual(lst.to_list(), [])
-        lst = DynamicArray_mut()
-        lst.from_list([1, 2, 3])
+        lst = DynamicArray_mut([1, 2, 3])
         lst.map(str)
         self.assertEqual(lst.to_list(), ["1", "2", "3"])
 
     def test_reduce(self):
         lst = DynamicArray_mut()
-        self.assertEqual(lst.reduce(lambda st, e: st + e, 0), 0)
-        lst = DynamicArray_mut()
-        lst.from_list([1, 2, 3])
-        self.assertEqual(lst.reduce(lambda st, e: st + e, 0), 6)
+        self.assertEqual(lst.reduce(lambda st, val: st + val, 0), 0)
+        lst = DynamicArray_mut([1, 2, 3])
+        self.assertEqual(lst.reduce(lambda st, val: st + val, 0), 6)
         test_data = [
             [],
             ['a'],
             ['a', 'b']
         ]
-        for e in test_data:
+        for val in test_data:
             lst = DynamicArray_mut()
-            lst.from_list(e)
+            lst.from_list(val)
             self.assertEqual(lst.reduce(lambda state, _: state + 1, 0), lst.size())
 
     def test_find(self):
@@ -81,6 +84,9 @@ class TestMutableList(unittest.TestCase):
     def test_reverse(self):
         lst = DynamicArray_mut([1, 2, 3])
         self.assertEqual(lst.reverse(),[3,2,1])
+
+    def test_mempty(self):
+        self.assertEqual(DynamicArray_mut().mempty(),None)
 
     @given(st.lists(st.integers()))
     def test_from_list_to_list_equality(self, a):
@@ -116,8 +122,8 @@ class TestMutableList(unittest.TestCase):
         lst = DynamicArray_mut()
         lst.from_list(x)
         tmp = []
-        for e in lst:
-            tmp.append(e)
+        for val in lst:
+            tmp.append(val)
         self.assertEqual(x, tmp)
         self.assertEqual(lst.to_list(), tmp)
         i = iter(DynamicArray_mut())
