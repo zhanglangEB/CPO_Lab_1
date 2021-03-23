@@ -78,24 +78,79 @@
    &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(DynamicArray_mut().mempty(),None)<br/>
    <br/>
    &emsp;&emsp;**immutable version:**<br/> 
-   &emsp;&emsp;&emsp;&emsp;1. size(arr)<br/> 
-   &emsp;&emsp;&emsp;&emsp;arr represents a dynamic array, it can be constructed by a list using DynamicArray(lst).The following arr are the same.<br/> 
-   &emsp;&emsp;&emsp;&emsp;lst represents a list in python(eg. lst = [1, 2, 3]).The following lst are the same.<br/> 
+   &emsp;&emsp;&emsp;&emsp;1. size<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;size(arr)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;arr represents a dynamic array, it can be constructed by a list using DynamicArray(lst).The following arr are the same.<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;lst represents a list in python(eg. lst = [1, 2, 3]).The following lst are the same.<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(size(DynamicArray([1])), 1)<br/>
    &emsp;&emsp;&emsp;&emsp;2. from_list(lst)<br/> 
-   &emsp;&emsp;&emsp;&emsp;3. to_list(arr)<br/> 
-   &emsp;&emsp;&emsp;&emsp;4. find(arr, value)<br/> 
-   &emsp;&emsp;&emsp;&emsp;5. arr_filter(arr, is_even)<br/> 
-   &emsp;&emsp;&emsp;&emsp;if is_even is true, arr_filter returns a dynamic array only containing even elements in arr.<br/> 
-   &emsp;&emsp;&emsp;&emsp;else it returns odd dynamic array.<br/> 
-   &emsp;&emsp;&emsp;&emsp;6. arr_map(func, arr)<br/> 
-   &emsp;&emsp;&emsp;&emsp;func represents a function applied to the array.<br/> 
-   &emsp;&emsp;&emsp;&emsp;7. append(arr, item)<br/> 
-   &emsp;&emsp;&emsp;&emsp;8. remove(arr, value)<br/> 
-   &emsp;&emsp;&emsp;&emsp;9. reverse(arr)<br/> 
-   &emsp;&emsp;&emsp;&emsp;10. mempty()<br/> 
-   &emsp;&emsp;&emsp;&emsp;11. mconcat(a, b)<br/> 
-   &emsp;&emsp;&emsp;&emsp;a and b are two dynamic arrays.<br/> 
-   &emsp;&emsp;&emsp;&emsp;12. iterator(arr)<br/> <br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;from_list(lst)<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;test_data = [[],['a'],['a', 'b']]<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;for e in test_data:<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;lst = from_list(e)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(to_list(lst), e)<br/> 
+   &emsp;&emsp;&emsp;&emsp;3. to_list<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;to_list(arr)<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;lst = [1, 2]
+   &emsp;&emsp;&emsp;&emsp;&emsp;arr = DynamicArray(lst)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;lst_arr = to_list(arr)<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(lst, lst_arr)<br/>
+   &emsp;&emsp;&emsp;&emsp;4. find<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;find(arr, value)<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;arr = DynamicArray([1, 2])<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(find(arr, 1), True)<br/> 
+   &emsp;&emsp;&emsp;&emsp;5. arr_filter<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;arr_filter(arr, is_even)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;a = DynamicArray([1, 2, 3])<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;b = arr_filter(a, False)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(to_list(b), [1, 3])<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;if is_even is true, arr_filter returns a dynamic array only containing even elements in arr.<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;else it returns odd dynamic array.<br/> 
+   &emsp;&emsp;&emsp;&emsp;6. arr_map<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;arr_map(func, arr)<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;a = DynamicArray([1, 2, 3])<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;b = arr_map(lambda x: x + 1, a)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(to_list(b), [2, 3, 4])<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;func represents a function applied to the array.<br/> 
+   &emsp;&emsp;&emsp;&emsp;7. append<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;append(arr, item)<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;arr = DynamicArray([1, 2])<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(to_list(append(arr, 3)), [1, 2, 3])<br/> 
+   &emsp;&emsp;&emsp;&emsp;8. remove<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;remove(arr, value)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;a = DynamicArray([1, 2, 3])<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;b = remove(a, 1)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(to_list(b), [2, 3])<br/> 
+   &emsp;&emsp;&emsp;&emsp;9. reverse<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;reverse(arr)<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;arr1 = DynamicArray(['a'])<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;arr2 = DynamicArray(['a', 'b'])<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;arr3 = DynamicArray(['b', 'a'])<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(reverse(arr1), to_list(arr1))<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(reverse(arr2), to_list(arr3))<br/> 
+   &emsp;&emsp;&emsp;&emsp;10. mempty<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;mempty()<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(mempty(), None)<br/>
+   &emsp;&emsp;&emsp;&emsp;11. mconcat<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;mconcat(a, b)<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;a = DynamicArray([1, 2])<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;b = DynamicArray([3, 4])<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;c = mconcat(a, b)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(to_list(c), [1, 2, 3, 4])<br/> 
+   &emsp;&emsp;&emsp;&emsp;&emsp;a and b are two dynamic arrays.<br/> 
+   &emsp;&emsp;&emsp;&emsp;12. iterator<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;iterator(arr)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;x = [1, 2, 3, 4]<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;lst = from_list(x)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;tmp = []<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;try:<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;get_next = iterator(lst)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;while True:<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;tmp.append(get_next())<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;except StopIteration:<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;pass<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(x, tmp)<br/>
+   &emsp;&emsp;&emsp;&emsp;&emsp;self.assertEqual(to_list(lst), tmp)<br/>
 # Conclusion
    &emsp;&emsp;The dynamic array can use memory flexibly and effectively, it does not need to specify the size of the array before use, which is more convenient to use.<br/> 
    &emsp;&emsp;The basic types of python are divided into mutable and immutable. Mutable can be modified after creation, and immutable cannot be modified after creation. Therefore, the dynamic array we have implemented is also divided into mutable and immutable versions according to the above characteristics.In both versions, we use the basic static list type in python to implement dynamic array. When using a dynamic array, we first allocate a fixed memory to the dynamic array. When adding new elements exceeds the capacity of the dynamic array, we then apply for more memory to store the elements. In this way, we have realized the dynamic expansion of the array.
