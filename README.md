@@ -37,23 +37,23 @@
 # Work demonstration
    **mutable version:**<br/> 
    **immutable version:**<br/> 
-    1. size(arr)
-    arr represents a dynamic array, it can be constructed by a list using DynamicArray(lst).The following arr are the same.
-    lst represents a list in python(eg. lst = [1, 2, 3]).The following lst are the same.
-    2. from_list(lst)
-    3. to_list(arr)
-    4. find(arr, value)
-    5. arr_filter(arr, is_even)
-    if is_even is true, arr_filter returns a dynamic array only containing even elements in arr.
-    else it returns odd dynamic array.
-    6. arr_map(func, arr)
-    func represents a function applied to the array.
-    7. append(arr, item)
-    8. remove(arr, value)
-    9. reverse(arr)
-    10. mempty()
-    11. mconcat(a, b)
-    a and b are two dynamic arrays.
+    1. size(arr)<br/> 
+    arr represents a dynamic array, it can be constructed by a list using DynamicArray(lst).The following arr are the same.<br/> 
+    lst represents a list in python(eg. lst = [1, 2, 3]).The following lst are the same.<br/> 
+    2. from_list(lst)<br/> 
+    3. to_list(arr)<br/> 
+    4. find(arr, value)<br/> 
+    5. arr_filter(arr, is_even)<br/> 
+    if is_even is true, arr_filter returns a dynamic array only containing even elements in arr.<br/> 
+    else it returns odd dynamic array.<br/> 
+    6. arr_map(func, arr)<br/> 
+    func represents a function applied to the array.<br/> 
+    7. append(arr, item)<br/> 
+    8. remove(arr, value)<br/> 
+    9. reverse(arr)<br/> 
+    10. mempty()<br/> 
+    11. mconcat(a, b)<br/> 
+    a and b are two dynamic arrays.<br/> 
     12. iterator(arr)<br/> <br/> 
 # Conclusion
    The dynamic array can use memory flexibly and effectively, it does not need to specify the size of the array before use, which is more convenient to use.<br/> 
