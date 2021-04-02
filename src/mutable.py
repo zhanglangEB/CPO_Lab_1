@@ -113,15 +113,15 @@ class DynamicArray_mut(object):
     def mconcat(self,lst1,lst2):
         self.__init__()
         if lst1 is  None:
-            for val in lst2:
+            for val in lst2._elements:
                 self.add(val)
         elif lst2 is  None:
-            for val in lst1:
+            for val in lst1._elements:
                 self.add(val)
         else:
-            for val in lst1:
+            for val in lst1._elements:
                 self.add(val)
-            for val in lst2:
+            for val in lst2._elements:
                 self.add(val)
         return self.to_list()
 

@@ -16,7 +16,8 @@ class TestMutableList(unittest.TestCase):
 
     def test_resize(self):
         lst = DynamicArray_mut()
-        lst.resize(2)
+        growing_factor = 2
+        lst.resize(growing_factor)
         self.assertEqual(lst._capacity, 20)
 
     def test_to_list(self):
@@ -71,8 +72,8 @@ class TestMutableList(unittest.TestCase):
 
     def test_mconcat(self):
         lst = DynamicArray_mut()
-        lst1 = [1, 2, 3]
-        lst2 = [1, 2, 3]
+        lst1 = DynamicArray_mut([1, 2, 3])
+        lst2 = DynamicArray_mut([1, 2, 3])
         lst.mconcat(lst1, lst2)
         self.assertEqual(lst.to_list(), [1, 2, 3, 1, 2, 3])
 
