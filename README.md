@@ -108,10 +108,10 @@
 
        ```
        lst = DynamicArray_mut()
-       lst1 = [1, 2, 3]
-       lst2 = [1, 2, 3] 
-       lst.mconcat(lst1, lst2) 
-       self.assertEqual(lst.to_list(), [1, 2, 3, 1, 2, 3])  
+       lst1 = DynamicArray_mut([1, 2, 3])
+       lst2 = DynamicArray_mut([1, 2, 3])
+       lst.mconcat(lst1, lst2)
+       self.assertEqual(lst.to_list(), [1, 2, 3, 1, 2, 3]) 
        ```
 
    12. iter
@@ -131,6 +131,16 @@
        ```
        self.assertEqual(DynamicArray_mut().mempty(),None)
        ```
+       
+   14. resize
+
+       ```
+       st = DynamicArray_mut()
+       growing_factor = 2
+       lst.resize(growing_factor)
+       self.assertEqual(lst._capacity, 20)
+       ```
+
 
    **immutable version:**   
    1. size   
@@ -208,34 +218,47 @@
 
    10. mempty   
 
-        ```
-        self.assertEqual(mempty(), None)  
-        ```
+          ```
+          self.assertEqual(mempty(), None)  
+          ```
 
    11. mconcat   
 
-        ```
-        a = DynamicArray([1, 2])  
-        b = DynamicArray([3, 4])  
-        c = mconcat(a, b)  
-        self.assertEqual(to_list(c), [1, 2, 3, 4])   
-        ```
-
+           a = DynamicArray([1, 2])  
+           b = DynamicArray([3, 4])  
+           c = mconcat(a, b)  
+           self.assertEqual(to_list(c), [1, 2, 3, 4])   
+       
    12. iterator
 
-        ```
-        x = [1, 2, 3, 4]  
-        lst = from_list(x)  
-        tmp = []  
-        try:  
-            get_next = iterator(lst)  
-        while True:  
-            tmp.append(get_next())  
-        except StopIteration:  
-            pass  
-        self.assertEqual(x, tmp)  
-        self.assertEqual(to_list(lst), tmp)    
-        ```
+           x = [1, 2, 3, 4]  
+           lst = from_list(x)  
+           tmp = []  
+           try:  
+               get_next = iterator(lst)  
+           while True:  
+               tmp.append(get_next())  
+           except StopIteration:  
+               pass  
+           self.assertEqual(x, tmp)  
+           self.assertEqual(to_list(lst), tmp)    
+       
+   13. resize
+
+          ```
+       a = DynamicArray()
+       resize(a, 2)
+       self.assertEqual(len(a.elements), 200)
+          ```
+
+   14. reduce
+
+          ```
+          arr = DynamicArray()
+          self.assertEqual(arr_reduce((lambda x, y: x + y), arr, 0), 0)
+          arr = from_list([1, 2])
+          self.assertEqual(arr_reduce((lambda x, y: x + y), arr, 0), 3)
+          ```
 
 # Conclusion
   The dynamic array can use memory flexibly and effectively, it does not need to specify the size of the array before use, which is more convenient to use. 
