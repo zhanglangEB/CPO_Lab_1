@@ -71,6 +71,7 @@ def arr_reduce(func, arr, initializer):
 
 
 def resize(arr, growth_factor):
+    """ Resize the dynamic array according to growth factor"""
     temp = [None] * len(arr.elements) * growth_factor
     for i in range(size(arr)):
         temp[i] = arr.elements[i]
