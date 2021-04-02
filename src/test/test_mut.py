@@ -104,10 +104,10 @@ class TestMutableList(unittest.TestCase):
 
     @given(st.lists(st.integers()))
     def test_monoid_identity(self, li):
-        lst = DynamicArray_mut()
-        lst.from_list(li)
-        self.assertEqual(lst.mconcat(lst.mempty(), lst.to_list()), li)
-        self.assertEqual(lst.mconcat(lst.to_list(), lst.mempty()), li)
+        lst = DynamicArray_mut(li)
+        lst1 = DynamicArray_mut()
+        self.assertEqual(lst1.mconcat(lst.mempty(), lst).to_list(), li)
+        self.assertEqual(lst1.mconcat(lst, lst.mempty()).to_list(), li)
 
     @given(a=st.lists(st.integers()), b=st.lists(st.integers()), c=st.lists(st.integers()))
     def test_monoid_associativity(self, a, b, c):
@@ -115,8 +115,9 @@ class TestMutableList(unittest.TestCase):
         lst1 = DynamicArray_mut(a)
         lst2 = DynamicArray_mut(b)
         lst3 = DynamicArray_mut(c)
-        self.assertEqual(lst.mconcat(lst.mconcat(lst1.to_list(), lst2.to_list()), lst3.to_list()),
-                         lst.mconcat(lst1.to_list(), lst.mconcat(lst2.to_list(), lst3.to_list())))
+        test = DynamicArray_mut()
+        self.assertEqual(test.mconcat(lst.mconcat(lst1, lst2), lst3).to_list(),
+                         test.mconcat(lst1, lst.mconcat(lst2, lst3)).to_list())
 
     def test_iter(self):
         x = [1, 2, 3]

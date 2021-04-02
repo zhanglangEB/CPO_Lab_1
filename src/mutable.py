@@ -123,7 +123,7 @@ class DynamicArray_mut(object):
                 self.add(val)
             for val in lst2._elements:
                 self.add(val)
-        return self.to_list()
+        return self
 
     def reverse(self):
         arr=[]
