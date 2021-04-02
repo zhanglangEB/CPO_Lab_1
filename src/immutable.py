@@ -11,6 +11,8 @@ def size(arr):
 def from_list(lst):
     """ Construct a dynamic array from a list """
     arr = DynamicArray([])
+    while len(lst) > len(arr.elements):
+        resize(arr, 2)
     for i in range(len(lst)):
         arr.elements[i] = lst[i]
     return arr
@@ -68,11 +70,19 @@ def arr_reduce(func, arr, initializer):
     return value
 
 
+def resize(arr, growth_factor):
+    temp = [None] * len(arr.elements) * growth_factor
+    for i in range(size(arr)):
+        temp[i] = arr.elements[i]
+    arr.elements = temp
+
+
 def append(arr, item):
     """ Append a new item to array """
-    lst = to_list(arr)
-    lst.append(item)
-    return DynamicArray(lst)
+    if size(arr) == len(arr.elements):
+        resize(arr)
+    arr.elements[size(arr)] = item
+    return arr
 
 
 def remove(arr, value):

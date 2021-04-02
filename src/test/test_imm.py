@@ -1,7 +1,7 @@
 import unittest
+from immutable import *
 from hypothesis import given
 import hypothesis.strategies as st
-from immutable import *
 
 
 class TestImmutableList(unittest.TestCase):
@@ -32,6 +32,11 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(find(arr, 1), True)
         self.assertEqual(find(None, 1), False)
 
+    def test_resize(self):
+        a = DynamicArray()
+        resize(a, 2)
+        self.assertEqual(len(a.elements), 200)
+
     def test_append(self):
         arr = DynamicArray([1, 2])
         self.assertEqual(to_list(append(arr, 3)), [1, 2, 3])
@@ -56,7 +61,7 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(arr_reduce((lambda x, y: x + y), arr, 0), 0)
         arr = from_list([1, 2])
         self.assertEqual(arr_reduce((lambda x, y: x + y), arr, 0), 3)
-    
+
     def test_mempty(self):
         self.assertEqual(mempty(), None)
 
