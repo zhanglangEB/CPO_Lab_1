@@ -1,11 +1,9 @@
 def size(arr):
     """ Get the size of dynamic array """
-    count = 0
-    if arr is not None:
-        for item in arr:
-            if item is not None:
-                count += 1
-    return count
+    if arr is None:
+        return 0
+    else:
+        return arr.length
 
 
 def from_list(lst):
@@ -15,6 +13,7 @@ def from_list(lst):
         resize(arr, 2)
     for i in range(len(lst)):
         arr.elements[i] = lst[i]
+    arr.length = len(lst)
     return arr
 
 
@@ -41,12 +40,13 @@ def arr_filter(arr, is_even):
     lst = []
     if arr is not None:
         for item in arr:
-            if is_even:
-                if (item % 2) == 0:
-                    lst.append(item)
-            else:
-                if (item % 2) != 0:
-                    lst.append(item)
+            if item is not None:
+                if is_even:
+                    if (item % 2) == 0:
+                        lst.append(item)
+                else:
+                    if (item % 2) != 0:
+                        lst.append(item)
     return DynamicArray(lst)
 
 
@@ -54,7 +54,8 @@ def arr_map(func, arr):
     """ Apply function to every item in array """
     lst = []
     for item in arr:
-        lst.append(func(item))
+        if item is not None:
+            lst.append(func(item))
     return DynamicArray(lst)
 
 
@@ -66,7 +67,8 @@ def arr_reduce(func, arr, initializer):
     else:
         value = initializer
     for element in it:
-        value = func(value, element)
+        if element is not None:
+            value = func(value, element)
     return value
 
 
@@ -83,6 +85,7 @@ def append(arr, item):
     if size(arr) == len(arr.elements):
         resize(arr)
     arr.elements[size(arr)] = item
+    arr.length += 1
     return arr
 
 
@@ -137,7 +140,11 @@ def iterator(arr):
 
 class DynamicArray(object):
     def __init__(self, lst=[]):
-        self.elements = [None for i in range(100)]
+        self.length = len(lst)
+        if self.length <= 100:
+            self.elements = [None for i in range(100)]
+        else:
+            self.elements = [None for i in range(self.length + 100)]
         for i in range(len(lst)):
             self.elements[i] = lst[i]
 
@@ -146,7 +153,7 @@ class DynamicArray(object):
         return self
 
     def __next__(self):
-        if self.elements[self.index] is not None:
+        if self.index < self.length:
             x = self.elements[self.index]
             self.index += 1
             return x

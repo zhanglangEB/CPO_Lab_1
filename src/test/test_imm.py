@@ -7,7 +7,7 @@ import hypothesis.strategies as st
 class TestImmutableList(unittest.TestCase):
     def test_size(self):
         self.assertEqual(size(None), 0)
-        self.assertEqual(size(DynamicArray([1])), 1)
+        self.assertEqual(size(DynamicArray([None])), 1)
         self.assertEqual(size(DynamicArray([1, 2])), 2)
 
     def test_to_list(self):
