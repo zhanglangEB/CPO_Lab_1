@@ -26,6 +26,8 @@ class TestImmutableList(unittest.TestCase):
         for e in test_data:
             lst = from_list(e)
             self.assertEqual(to_list(lst), e)
+        with self.assertRaises(TypeError):
+            from_list(2)
 
     def test_find(self):
         arr = DynamicArray([1, 2])
@@ -36,6 +38,8 @@ class TestImmutableList(unittest.TestCase):
         a = DynamicArray()
         resize(a, 2)
         self.assertEqual(len(a.elements), 200)
+        with self.assertRaises(TypeError):
+            resize(a, "hello")
 
     def test_append(self):
         arr = DynamicArray([1, 2])
@@ -45,6 +49,8 @@ class TestImmutableList(unittest.TestCase):
         a = DynamicArray([1, 2, 3])
         b = remove(a, 1)
         self.assertEqual(to_list(b), [2, 3])
+        with self.assertRaises(ValueError):
+            remove(a, 5)
 
     def test_filter(self):
         a = DynamicArray([1, 2, 3])
@@ -55,12 +61,17 @@ class TestImmutableList(unittest.TestCase):
         a = DynamicArray([1, 2, 3])
         b = arr_map(lambda x: x + 1, a)
         self.assertEqual(to_list(b), [2, 3, 4])
+        c = DynamicArray(['a', 1, 'b'])
+        with self.assertRaises(TypeError):
+            arr_map(lambda x: x+1, c)
 
     def test_reduce(self):
         arr = DynamicArray()
         self.assertEqual(arr_reduce((lambda x, y: x + y), arr, 0), 0)
         arr = from_list([1, 2])
         self.assertEqual(arr_reduce((lambda x, y: x + y), arr, 0), 3)
+        with self.assertRaises(TypeError):
+            arr_reduce((lambda x, y: x + y), arr, "this is a string")
 
     def test_mempty(self):
         self.assertEqual(mempty(), None)
@@ -91,25 +102,22 @@ class TestImmutableList(unittest.TestCase):
 
     @given(a=st.lists(st.integers()), b=st.lists(st.integers()), c=st.lists(st.integers()))
     def test_monoid_associativity(self, a, b, c):
-        lst1 = from_list(a)
-        lst2 = from_list(b)
-        lst3 = from_list(c)
-        self.assertEqual(mconcat(mconcat(lst1, lst2), lst3), mconcat(lst1, mconcat(lst2, lst3)))
+        arr1 = from_list(a)
+        arr2 = from_list(b)
+        arr3 = from_list(c)
+        self.assertEqual(mconcat(mconcat(arr1, arr2), arr3), mconcat(arr1, mconcat(arr2, arr3)))
 
     def test_iter(self):
         x = [1, 2, 3, 4]
-        lst = from_list(x)
-        tmp = []
-        try:
-            get_next = iterator(lst)
-            while True:
-                tmp.append(get_next())
-        except StopIteration:
-            pass
+        arr = from_list(x)
+        tmp = [item for item in arr]
+        it1 = iter(arr)
+        it2 = iter(arr)
         self.assertEqual(x, tmp)
-        self.assertEqual(to_list(lst), tmp)
-        get_next = iterator(None)
-        self.assertRaises(StopIteration, lambda: get_next())
+        self.assertEqual(next(it1), next(it2))
+        it3 = iter(DynamicArray([]))
+        with self.assertRaises(StopIteration):
+            next(it3)
 
     def test_eq(self):
         other = from_list([1, 2, 3])

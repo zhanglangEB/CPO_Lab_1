@@ -6,7 +6,7 @@ def size(arr):
         return arr.length
 
 
-def from_list(lst):
+def from_list(lst: list):
     """ Construct a dynamic array from a list """
     arr = DynamicArray([])
     while len(lst) > len(arr.elements):
@@ -35,7 +35,7 @@ def find(arr, value):
     return False
 
 
-def arr_filter(arr, is_even):
+def arr_filter(arr, is_even: bool):
     """ Filter data structure by specific predicate """
     lst = []
     if arr is not None:
@@ -72,7 +72,7 @@ def arr_reduce(func, arr, initializer):
     return value
 
 
-def resize(arr, growth_factor):
+def resize(arr, growth_factor: int):
     """ Resize the dynamic array according to growth factor"""
     temp = [None] * len(arr.elements) * growth_factor
     for i in range(size(arr)):
@@ -91,10 +91,8 @@ def append(arr, item):
 
 def remove(arr, value):
     """ Remove an item whose value equal to 'value' from array """
-    lst = []
-    for i in range(size(arr)):
-        if arr.elements[i] is not value:
-            lst.append(arr.elements[i])
+    lst = to_list(arr)
+    lst.remove(value)
     return DynamicArray(lst)
 
 
@@ -120,24 +118,6 @@ def mconcat(a, b):
     return DynamicArray(l1 + l2)
 
 
-def iterator(arr):
-    length = size(arr)
-    lst = arr
-    index = 0
-
-    def foo():
-        nonlocal lst
-        nonlocal length
-        nonlocal index
-        if (index >= length) or (lst is None):
-            raise StopIteration
-        temp = lst.elements[index]
-        index = index + 1
-        return temp
-
-    return foo
-
-
 class DynamicArray(object):
     def __init__(self, lst=[]):
         self.length = len(lst)
@@ -149,7 +129,24 @@ class DynamicArray(object):
             self.elements[i] = lst[i]
 
     def __iter__(self):
+        return Next(self)
+
+    def __eq__(self, other):
+        if (other is None) or (size(other) != size(self)) or (type(other) != type(self)):
+            return False
+        for i in range(size(other)):
+            if self.elements[i] != other.elements[i]:
+                return False
+        return True
+
+
+class Next:
+    def __init__(self, dynamic_arr):
+        self.elements = dynamic_arr.elements
+        self.length = dynamic_arr.length
         self.index = 0
+
+    def __iter__(self):
         return self
 
     def __next__(self):
@@ -159,11 +156,3 @@ class DynamicArray(object):
             return x
         else:
             raise StopIteration
-
-    def __eq__(self, other):
-        if (other is None) or (size(other) != size(self)) or (type(other) != type(self)):
-            return False
-        for i in range(size(other)):
-            if self.elements[i] != other.elements[i]:
-                return False
-        return True
