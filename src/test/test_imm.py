@@ -1,3 +1,7 @@
+import sys
+import os
+sys.path.append((os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))))
+
 import unittest
 from immutable import *
 from hypothesis import given
@@ -9,6 +13,7 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(size(None), 0)
         self.assertEqual(size(DynamicArray([None])), 1)
         self.assertEqual(size(DynamicArray([1, 2])), 2)
+        self.assertRaises(TypeError, lambda: size('str'))
 
     def test_to_list(self):
         lst = [1, 2]
@@ -16,6 +21,7 @@ class TestImmutableList(unittest.TestCase):
         lst_arr = to_list(arr)
         self.assertEqual(to_list(None), [])
         self.assertEqual(lst, lst_arr)
+        self.assertRaises(TypeError, lambda: to_list('str'))
 
     def test_from_list(self):
         test_data = [
@@ -32,7 +38,7 @@ class TestImmutableList(unittest.TestCase):
     def test_find(self):
         arr = DynamicArray([1, 2])
         self.assertEqual(find(arr, 1), True)
-        self.assertEqual(find(None, 1), False)
+        self.assertRaises(TypeError, lambda: find(None, 1))
 
     def test_resize(self):
         a = DynamicArray()
@@ -49,29 +55,29 @@ class TestImmutableList(unittest.TestCase):
         a = DynamicArray([1, 2, 3])
         b = remove(a, 1)
         self.assertEqual(to_list(b), [2, 3])
-        with self.assertRaises(ValueError):
-            remove(a, 5)
+        self.assertRaises(ValueError, lambda: remove(a, 5))
+        self.assertRaises(TypeError, lambda: remove(None, 5))
 
     def test_filter(self):
         a = DynamicArray([1, 2, 3])
         b = arr_filter(a, False)
         self.assertEqual(to_list(b), [1, 3])
+        self.assertRaises(TypeError, lambda: arr_filter(None, True))
 
     def test_map(self):
         a = DynamicArray([1, 2, 3])
         b = arr_map(lambda x: x + 1, a)
         self.assertEqual(to_list(b), [2, 3, 4])
         c = DynamicArray(['a', 1, 'b'])
-        with self.assertRaises(TypeError):
-            arr_map(lambda x: x+1, c)
+        self.assertRaises(TypeError, lambda: arr_map(lambda x: x + 1, c))
+        self.assertRaises(TypeError, lambda: arr_map(None, None))
 
     def test_reduce(self):
         arr = DynamicArray()
         self.assertEqual(arr_reduce((lambda x, y: x + y), arr, 0), 0)
         arr = from_list([1, 2])
         self.assertEqual(arr_reduce((lambda x, y: x + y), arr, 0), 3)
-        with self.assertRaises(TypeError):
-            arr_reduce((lambda x, y: x + y), arr, "this is a string")
+        self.assertRaises(TypeError, lambda: arr_reduce((lambda x, y: x + y), arr, 'str'))
 
     def test_mempty(self):
         self.assertEqual(mempty(), None)
@@ -80,7 +86,9 @@ class TestImmutableList(unittest.TestCase):
         a = DynamicArray([1, 2])
         b = DynamicArray([3, 4])
         c = mconcat(a, b)
+        d = mconcat(None, b)
         self.assertEqual(to_list(c), [1, 2, 3, 4])
+        self.assertEqual(to_list(d), [3, 4])
 
     def test_reverse(self):
         self.assertEqual(reverse(None), None)
@@ -116,8 +124,7 @@ class TestImmutableList(unittest.TestCase):
         self.assertEqual(x, tmp)
         self.assertEqual(next(it1), next(it2))
         it3 = iter(DynamicArray([]))
-        with self.assertRaises(StopIteration):
-            next(it3)
+        self.assertRaises(StopIteration, lambda: next(it3))
 
     def test_eq(self):
         other = from_list([1, 2, 3])
