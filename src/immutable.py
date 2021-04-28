@@ -1,12 +1,14 @@
 class DynamicArray(object):
     def __init__(self, lst=[]):
-        self.length = len(lst)
-        if self.length <= 100:
-            self.elements = [None for i in range(100)]
+        if not isinstance(lst, list):
+            raise TypeError('The type of {} object is not list'.format(lst))
+        self._length = len(lst)
+        if self._length <= 100:
+            self._elements = [None for i in range(100)]
         else:
-            self.elements = [None for i in range(self.length + 100)]
+            self._elements = [None for i in range(self.length + 100)]
         for i in range(len(lst)):
-            self.elements[i] = lst[i]
+            self._elements[i] = lst[i]
 
     def __iter__(self):
         return Next(self)
@@ -15,24 +17,24 @@ class DynamicArray(object):
         if (other is None) or (size(other) != size(self)) or (type(other) != type(self)):
             return False
         for i in range(size(other)):
-            if self.elements[i] != other.elements[i]:
+            if self._elements[i] != other._elements[i]:
                 return False
         return True
 
 
 class Next:
-    def __init__(self, dynamic_arr):
-        self.elements = dynamic_arr.elements
-        self.length = dynamic_arr.length
-        self.index = 0
+    def __init__(self, dynamic_arr: DynamicArray):
+        self._elements = dynamic_arr._elements
+        self._length = dynamic_arr._length
+        self._index = 0
 
     def __iter__(self):
         return self
 
     def __next__(self):
-        if self.index < self.length:
-            x = self.elements[self.index]
-            self.index += 1
+        if self._index < self._length:
+            x = self._elements[self._index]
+            self._index += 1
             return x
         else:
             raise StopIteration
@@ -44,17 +46,17 @@ def size(arr):
         return 0
     elif not isinstance(arr, DynamicArray):
         raise TypeError('\'{}\' is not DynamicArray'.format(arr))
-    return arr.length
+    return arr._length
 
 
 def from_list(lst: list):
     """ Construct a dynamic array from a list """
     arr = DynamicArray([])
-    while len(lst) > len(arr.elements):
+    while len(lst) > len(arr._elements):
         resize(arr, 2)
     for i in range(len(lst)):
-        arr.elements[i] = lst[i]
-    arr.length = len(lst)
+        arr._elements[i] = lst[i]
+    arr._length = len(lst)
     return arr
 
 
@@ -130,21 +132,19 @@ def resize(arr, growth_factor: int):
     """ Resize the dynamic array according to growth factor"""
     if not isinstance(arr, DynamicArray):
         raise TypeError('\'{}\' is not DynamicArray'.format(arr))
-    temp = [None] * len(arr.elements) * growth_factor
+    temp = [None] * len(arr._elements) * growth_factor
     for i in range(size(arr)):
-        temp[i] = arr.elements[i]
-    arr.elements = temp
+        temp[i] = arr._elements[i]
+    arr._elements = temp
 
 
 def append(arr, item):
     """ Append a new item to array """
     if not isinstance(arr, DynamicArray):
         raise TypeError('\'{}\' is not DynamicArray'.format(arr))
-    if size(arr) == len(arr.elements):
-        resize(arr)
-    arr.elements[size(arr)] = item
-    arr.length += 1
-    return arr
+    tmp = [e for e in arr]
+    tmp.append(item)
+    return DynamicArray(tmp)
 
 
 def remove(arr, value):
@@ -166,11 +166,12 @@ def reverse(arr):
     else:
         lst = []
         for i in range(size(arr) - 1, -1, -1):
-            lst.append(arr.elements[i])
+            lst.append(arr._elements[i])
         return lst
 
 
 def mempty():
+    """ Empty the dynamic array"""
     return None
 
 

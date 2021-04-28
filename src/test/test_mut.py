@@ -1,6 +1,5 @@
 import sys
 import os
-
 sys.path.append((os.path.abspath(os.path.join(os.path.dirname(__file__), '../'))))
 
 from mutable import *
@@ -130,17 +129,17 @@ class TestMutableList(unittest.TestCase):
         tmp2.mconcat(lst1)
         tmp2.mconcat(lst2)
         self.assertEqual(tmp1.mconcat(lst2).to_list(), lst.mconcat(tmp2).to_list())
-        # self.assertEqual(id(tmp1),id(lst))
 
     def test_iter(self):
         x = [1, 2, 3]
         lst = DynamicArray_mut()
         lst.from_list(x)
-        tmp = []
-        for val in lst:
-            tmp.append(val)
+        tmp = [item for item in lst]
+        it1 = iter(lst)
+        it2 = iter(lst)
         self.assertEqual(x, tmp)
         self.assertEqual(lst.to_list(), tmp)
+        self.assertEqual(next(it1), next(it2))
         i = iter(DynamicArray_mut())
         self.assertRaises(StopIteration, lambda: next(i))
 

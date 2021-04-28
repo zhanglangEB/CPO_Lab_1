@@ -43,7 +43,7 @@ class TestImmutableList(unittest.TestCase):
     def test_resize(self):
         a = DynamicArray()
         resize(a, 2)
-        self.assertEqual(len(a.elements), 200)
+        self.assertEqual(len(a._elements), 200)
         with self.assertRaises(TypeError):
             resize(a, "hello")
 
@@ -114,6 +114,13 @@ class TestImmutableList(unittest.TestCase):
         arr2 = from_list(b)
         arr3 = from_list(c)
         self.assertEqual(mconcat(mconcat(arr1, arr2), arr3), mconcat(arr1, mconcat(arr2, arr3)))
+
+    @given(a=st.lists(st.integers()))
+    def test_immutability(self, a):
+        arr1 = from_list(a)
+        arr2 = arr1
+        arr2 = append(arr2, 1)
+        self.assertNotEqual(arr1, arr2)
 
     def test_iter(self):
         x = [1, 2, 3, 4]
